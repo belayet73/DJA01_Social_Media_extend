@@ -71,6 +71,8 @@
                 {% else %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
+                     <!-- ✅ Add the password reset link -->
+                    <li class="nav-item"><a class="nav-link text-danger" href="{% url 'password_reset' %}">Forgot Password?</a></li>
                 {% endif %}
             
             </ul>
