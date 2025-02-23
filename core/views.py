@@ -3,10 +3,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.models import User
 from django.contrib import messages
 from django.db.models import Q
 from django.views.generic import DetailView,  UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy
+
 
 from . models import Profile, Post, Comment, Like
 from . forms import RegistrationForm, ProfileUpdateForm, PostForm, CommentForm
@@ -26,10 +28,15 @@ def home(request):
     elif media_type == "image":
         posts = posts.filter(image__isnull=False)
 
-    # Filter by author
-    author = request.GET.get('user')
-    if author:
-        posts = posts.filter(user__username=author)
+    
+    # ✅ Filter by Author (Fix this part)
+    author_username = request.GET.get('author')
+    if author_username:
+        try:
+            author = User.objects.get(username=author_username)
+            posts = posts.filter(author=author)
+        except User.DoesNotExist:
+            posts = Post.objects.none()  # Return no posts if user does not exist
 
     # Filter by date
     date_sort = request.GET.get('date')
@@ -220,6 +227,12 @@ def post_details(request, post_id):
 def my_post(request):
     profile, created = Profile.objects.get_or_create(user=request.user)
     posts = Post.objects.filter(author=request.user)
+    search_query = request.GET.get('q', None)
+    if search_query:
+        posts = posts.filter( 
+        Q(title__icontains=search_query)|  
+        Q(text__icontains=search_query)     
+    ) 
     return render(request, 'my_post.html', {'profile': profile, 'posts': posts})
 
     

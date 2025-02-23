@@ -27,9 +27,10 @@ class Post(models.Model):
     #category = models.ForeignKey(Category, on_delete=models.SET_NULL, null =True, blank = True)
     #tag = models.ManyToManyField(Tag, blank= True)
     
+    #def __str__(self):
+    #    return self.title
     def __str__(self):
-        return self.title
- 
+        return f"{self.title} by {self.author.username}"
 
 # Profile Model
 """

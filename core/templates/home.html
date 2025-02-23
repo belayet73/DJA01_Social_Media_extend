@@ -8,7 +8,7 @@
     <div class="col-md-8 container-fluid">
         <!-- Search and Filter Form -->
         <form method="GET" class="mb-3">
-            <input type="text" name="q" placeholder="Search posts..." value="{{ request.GET.q }}" class="form-control mb-2">
+            {% comment %} <input type="text" name="q" placeholder="Search posts..." value="{{ request.GET.q }}" class="form-control mb-2"> {% endcomment %}
 
             <!-- Media Type Filter -->
             <select name="media" class="form-control mb-2">
