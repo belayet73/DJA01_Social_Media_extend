@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container" >
+    <h1>All Posts...</h1>
+    {% if user.is_authenticated %}
+        <a class ='nav-link' href="{% url 'post-create' %}">Create New Post</a>
+    {% endif %}
+    <div class="col-md-8 container-fluid">
+        <!-- Search and Filter Form -->
+        <form method="GET" class="mb-3">
+            <input type="text" name="q" placeholder="Search posts..." value="{{ request.GET.q }}" class="form-control mb-2">
+
+            <!-- Media Type Filter -->
+            <select name="media" class="form-control mb-2">
+                <option value="">All Media</option>
+                <option value="text" {% if request.GET.media == "text" %}selected{% endif %}>Text Only</option>
+                <option value="image" {% if request.GET.media == "image" %}selected{% endif %}>With Images</option>
+            </select>
+
+            <!-- Date Sorting Filter -->
+            <select name="date" class="form-control mb-2">
+                <option value="">Sort by Date</option>
+                <option value="latest" {% if request.GET.date == "latest" %}selected{% endif %}>Latest First</option>
+                <option value="oldest" {% if request.GET.date == "oldest" %}selected{% endif %}>Oldest First</option>
+            </select>
+
+            <!-- Author Filter -->
+            <input type="text" name="author" placeholder="Filter by Author" value="{{ request.GET.author }}" class="form-control mb-2">
+
+            <button type="submit" class="btn btn-primary">Apply Filters</button>
+        </form>
+        <div class="card">
+            <ul class = 'list-group'>
+                <!-- Display Posts -->
+                {% for post in posts %}
+                <li class="list-group-item">
+                    <div class="card-body">
+                        <h2><a href="{% url 'post-detail' post.pk %}">{{ post.title }}</a></h2>
+                        
+                        <small>By {{ .username }} on {{ post.created_at }}</small>
+                        {% if post.image %}
+                        <img src="{{ post.image.url }}" class="img-fluid" alt="Post Image" width="150" height="120">
+                        {% endif %}
+                        <p>{{ post.text| truncatewords:50}}</p>
+
+                        {% if user.is_authenticated and user == post.user %}
+                            <a href="{% url 'post-update' post.pk %}" class="btn btn-warning">Edit Post</a>
+                            <a href="{% url 'post-delete' post.pk %}" class="btn btn-danger">Delete Post</a>
+                        {% endif %}
+                        <div>
+                            <a href="{% url 'like_post' post.id %}" class="btn btn-sm btn-outline-primary">
+                                Like ({{ post.likes.count }})
+                            </a>
+                            <a href="{% url 'add_comment' post.id %}" class="btn btn-sm btn-outline-secondary">
+                                Comment ({{ post.comments.count }})
+                            </a>
+                        </div>
+
+                        <h6>Comments:</h6>
+                        {% for comment in post.comments.all %}
+                        <p><strong>{{ comment.user.username }}</strong>: {{ comment.text }}</p>
+                        {% endfor %}
+                    </div>
+                </li>
+                {% empty %}
+                    <p>No posts yet!</p>
+                {% endfor %}
+           
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

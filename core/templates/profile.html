@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% comment %} {% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    
+    <img src="{{ profile.profile_picture.url }}" class="rounded-circle" width="150" height="120">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+    </form>
+
+</div>
+{% endblock %} {% endcomment %}
+
+
+
+{% block content %}
+<div class="container">
+    <h2>{{ user.username }}'s Profile</h2>
+    
+    <!-- Profile Picture -->
+    {% if user.profile.profile_picture %}
+        <img src="{{ user.profile.profile_picture.url }}" alt="Profile Picture" class="img-fluid rounded-circle" width="150">
+    {% else %}
+        <img src="https://via.placeholder.com/150" alt="Default Profile Picture" class="img-fluid rounded-circle">
+    {% endif %}
+
+    <!-- Profile Information -->
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Bio:</strong> {{ user.profile.bio }}</p>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+        <!-- Back to Home -->
+        <a href="{% url 'home' %}" class="btn btn-secondary">Back to Home</a>
+    </form>
+    <!-- Edit Profile Button 
+    <a href="{% url 'profile-update' %}" class="btn btn-warning">Edit Profile</a>
+    -->
+    
+    
+</div>
+{% endblock %}

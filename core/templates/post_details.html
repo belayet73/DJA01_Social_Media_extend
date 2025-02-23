@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{%block title%}{{post.title}}{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>{{ user.username }}'s Post</h2>
+    <h2>{{ post.title }}</h2>
+    <p><strong>Posted on:</strong> {{ post.created_at }}</p>
+    {% if post.image %}
+        <img src="{{ post.image.url }}" alt="Post Image" class="img-fluid" width="300">
+    {% endif %}
+    <p>{{ post.text }}</p>   
+    <br><br>
+    
+    <p>You are logged in as: {{ user }}</p>
+    <p>Post Owner: {{ post.author }}</p>
+
+    {% if user.is_authenticated and user == post.author %}
+        <a href="{% url 'post-update' post.pk %}" class="btn btn-warning">Edit Post</a>
+        <a href="{% url 'post-delete' post.pk %}" class="btn btn-danger">Delete Post</a>
+    {% endif %}
+   
+    <a href="{% url 'home' %}" class="btn btn-secondary">Back to Home</a>
+</div>
+{% endblock %}

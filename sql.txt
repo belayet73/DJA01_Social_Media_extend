@@ -1,0 +1,37 @@
+Table User {
+    id int [pk]
+    username varchar
+    email varchar
+    password varchar
+}
+
+Table Profile {
+    id int [pk]
+    user_id int [ref: > User.id]
+    profile_picture varchar
+    bio text
+    location text
+}
+
+Table Post {
+    id int [pk]
+    user_id int [ref: > User.id]
+    text text
+    image varchar
+    created_at datetime
+}
+
+Table Comment {
+    id int [pk]
+    user_id int [ref: > User.id]
+    post_id int [ref: > Post.id]
+    text text
+    created_at datetime
+}
+
+Table Like {
+    id int [pk]
+    user_id int [ref: > User.id]
+    post_id int [ref: > Post.id]
+    created_at datetime
+}

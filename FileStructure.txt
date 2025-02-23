@@ -1,0 +1,33 @@
+social_media_project/         
+│── core/                     
+│   │── migrations/            
+│   │── static/                
+│   │   ├── css/
+│   │   │   ├── style.css      
+│   │   ├── profile_pics/      
+│   │   ├── posts/             
+│   │── templates/             
+│   │   ├── registration/      # Authentication templates
+│   │   │   ├── login.html     # Login form
+│   │   │   ├── register.html  # User registration form
+│   │   │   ├── logout.html    # Logout confirmation
+│   │   │   ├── password_reset.html        # Password reset request form
+│   │   │   ├── password_reset_done.html   # Reset email sent confirmation
+│   │   │   ├── password_reset_confirm.html  # Enter new password
+│   │   │   ├── password_reset_complete.html # Password reset successful
+│   │   ├── base.html          
+│   │   ├── home.html          
+│   │   ├── profile.html       
+│   │   ├── add_comment.html   
+│   │── forms.py               
+│   │── models.py              
+│   │── views.py               
+│   │── urls.py                
+│── media/                     
+│── social_media_project/       
+│   │── settings.py             
+│   │── urls.py                 
+│── db.sqlite3                  
+│── manage.py                   
+│── README.md                   
+│── requirements.txt    
